@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sitecore.Framework.Messaging.Common</name>
+    </assembly>
+    <members>
+        <member name="T:Sitecore.Framework.Messaging.Common.TypeScanner">
+            <summary>
+            Scans all available assemblies for the current application, looking for implementations of
+            Interfaces or base types.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Framework.Messaging.Common.TypeScanner.Scan(System.Type[])">
+            <summary>
+            Scans all assemblies available to the current application for implementations of the specified types.
+            </summary>
+            <param name="allowedBaseTypes">Abstract classes or Interfaces for which to find implementations.</param>
+            <returns>A dictionary keyed with the input types, and valued with the discovered types.  If no implementations were found,
+            no entry will be present in the dictionary.</returns>
+        </member>
+        <member name="T:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo">
+            <summary>
+            Back ported from 2.0 FileSystemGlobbing package.  Can be removed when we move to 2.0.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new InMemoryDirectoryInfo with the root directory and files given.
+            </summary>
+            <param name="rootDir">The root directory that this FileSystem will use.</param>
+            <param name="files">Collection of file names. If relative paths <paramref name="rootDir"/> will be prepended to the paths.</param>
+        </member>
+        <member name="P:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.FullName">
+            <inheritdoc />
+        </member>
+        <member name="P:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.ParentDirectory">
+            <inheritdoc />
+        </member>
+        <member name="M:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.EnumerateFileSystemInfos">
+            <inheritdoc />
+        </member>
+        <member name="M:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.GetDirectory(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sitecore.Framework.Messaging.Common.InMemoryDirectoryInfo.GetFile(System.String)">
+            <summary>
+            Returns an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase"/> that matches the <paramref name="path"/> given.
+            </summary>
+            <param name="path">The filename.</param>
+            <returns>Instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase"/> if the file exists, null otherwise.</returns>
+        </member>
+        <member name="T:Sitecore.Framework.Messaging.Common.InMemoryFileInfo">
+            <summary>
+            Back ported from 2.0 FileSystemGlobbing package.  Can be removed when we move to 2.0.
+            </summary>
+        </member>
+    </members>
+</doc>

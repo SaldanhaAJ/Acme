@@ -1,0 +1,45 @@
+﻿@using Sitecore.Mvc;
+@using Sitecore.Mvc.Presentation;
+@using Acme.Feature.Navigation.Models;
+
+@model IEnumerable<LinkItem>
+
+
+<div id="footer-inner">
+    <div id="brand-footer">
+        <div id="white-footer" class="clearfix">
+            <ul>
+                @{
+
+                    var classCount = 1;
+                }
+                @foreach (var item in Model)
+                {
+
+
+                    <text>
+                        <li class="sprite brand_@item.StyleInfo">
+
+                            <a href="@item.URL" class="icon-container  gtirInactiveLink"  title="@item.Text">
+
+
+                                <span class="brand-name">@item.Text</span>
+                                <span class="brand-tooltip">
+                                    <span class="message">@item.ToolTip</span>
+                                    <span class="arrow_bottom"></span>
+                                </span>
+                            </a>
+                        </li>
+
+                    </text>
+
+
+
+                    classCount++;
+                }
+            </ul>
+        </div>
+    </div>
+
+
+

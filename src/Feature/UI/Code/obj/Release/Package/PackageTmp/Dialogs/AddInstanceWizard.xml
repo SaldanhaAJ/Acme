@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <CustomAdmin.AddInstanceWizard>
+    <WizardForm CodeBeside="Custom.Admin.Dialogs.AddInstanceWizard, Custom.Admin">
+
+      <style type="text/css">
+        th.scListviewViewDetailsHeader
+        {
+        display:none;
+        }
+
+        #RolesBox div
+        {
+        padding-bottom: 2px;
+        }
+      </style>
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/earth.png">
+        <Border Class="scWizardWelcomeTitle">
+          <Literal Text="Welcome to the Add Instance Wizard" />
+        </Border>
+      </WizardFormFirstPage>
+      <WizardFormPage ID="InstanceInputs" Header="Instance" Text="All fields are required EXCEPT global optout table suffix" Icon="Network/32x32/earth.png" >
+        <WizardFormPadding>
+          <GridPanel Width="100%" VAlign="top" Cellspacing="4" >
+
+            <Label Header="Instance:" />
+
+            <Edit ID="InstanceInput" GridPanel.Width="100%" Width="100%"  />
+            <GridPanel ID="BUPanel" GridPanel.VAlign="top"   Visible="true" Width="100%" >
+              <Label Header="Instance Harmony Authorized Sending Domain Name:" />
+              <Edit ID="HarmonyAuthorizedDomainInput" GridPanel.Width="100%" Width="100%"  />
+              <Label Header="Corporate GlobalOptout Table Suffix:" />
+              <Edit ID="OptoutSuffixInput" GridPanel.Width="100%" Width="100%"  />
+              <Label Header="Unsubscribe URL:" />
+              <Edit ID="OptoutURLInput" GridPanel.Width="100%" Width="100%"  />
+            </GridPanel>
+
+
+
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+      <WizardFormPage ID="Importing" Header="Add Instance" Text="Add Instance" Icon="Network/32x32/earth.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" VAlign="Top">
+            <Space Height="64" />
+            <Border Align="center">
+              <ThemedImage Src="Network/32x32/earth.png" Width="48" Height="48" />
+            </Border>
+            <Space Height="16" />
+            <Border Align="center">
+              <ThemedImage Src="Images/progress.gif" Width="94" Height="17" />
+            </Border>
+            <Space Height="16" />
+            <Border Align="center" >
+              <Literal Text="Adding..." Style="font-weight:bold"/>
+            </Border>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="Finish" Icon="Network/32x32/earth.png">
+        <Literal ID="ResultsHeader" Text="The instance information has been added successfully." />
+        <GridPanel ID="ErrorPanel" Width="100%" Cellspacing="40" >
+          <Space Height="300"/>
+
+          <Border ID="Error">
+            <Space Height="180px" />
+            <Literal ID="ErrorText" Text="" GridPanel.Colspan="2" />
+          </Border>
+        </GridPanel>
+        <GridPanel ID="ResultsPanel" Width="100%" >
+
+
+          <Border>
+            <Space Height="14px" />
+          </Border>
+
+          <Border ID="Results" style="display:none;" >
+            <GridPanel Columns="2" Cellspacing="6" Valign="top">
+
+
+              <Border GridPanel.Colspan="2">
+                <Space Height="8px" />
+              </Border>
+
+
+            </GridPanel>
+          </Border>
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </CustomAdmin.AddInstanceWizard>
+</control>

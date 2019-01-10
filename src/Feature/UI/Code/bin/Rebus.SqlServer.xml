@@ -1,0 +1,577 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Rebus.SqlServer</name>
+    </assembly>
+    <members>
+        <member name="T:Rebus.Config.SqlServerSagaConfigurationExtensions">
+            <summary>
+            Configuration extensions for sagas
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSagaConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Sagas.ISagaStorage},System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store sagas, using the tables specified to store data and indexed properties respectively.
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSagaConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Sagas.ISagaStorage},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store sagas, using the tables specified to store data and indexed properties respectively.
+            </summary>
+        </member>
+        <member name="T:Rebus.Config.SqlServerSagaSnapshotsConfigurationExtensions">
+            <summary>
+            Configuration extensions for saga snapshots
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSagaSnapshotsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Auditing.Sagas.ISagaSnapshotStorage},System.String,System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to store saga snapshots in SQL Server
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSagaSnapshotsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Auditing.Sagas.ISagaSnapshotStorage},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to store saga snapshots in SQL Server
+            </summary>
+        </member>
+        <member name="T:Rebus.Config.SqlServerSubscriptionsConfigurationExtensions">
+            <summary>
+            Configuration extensions for subscriptions
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSubscriptionsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Subscriptions.ISubscriptionStorage},System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
+            subscribing and unsubscribing by manipulating the subscription directly from the subscriber or just let it default to false to preserve the
+            default behavior.
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerSubscriptionsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Subscriptions.ISubscriptionStorage},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
+            subscribing and unsubscribing by manipulating the subscription directly from the subscriber or just let it default to false to preserve the
+            default behavior.
+            </summary>
+        </member>
+        <member name="T:Rebus.Config.SqlServerDataBusConfigurationExtensions">
+            <summary>
+            Configuration extensions for SQL Server data bus
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerDataBusConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.DataBus.IDataBusStorage},System.String,System.String,System.Boolean)">
+            <summary>
+            Configures the data bus to store data in a central SQL Server 
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerDataBusConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.DataBus.IDataBusStorage},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.Boolean)">
+            <summary>
+            Configures the data bus to store data in a central SQL Server 
+            </summary>
+        </member>
+        <member name="T:Rebus.Config.SqlServerTimeoutsConfigurationExtensions">
+            <summary>
+            Configuration extensions for configuring SQL persistence for sagas, subscriptions, and timeouts.
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerTimeoutsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Timeouts.ITimeoutManager},System.String,System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store timeouts.
+            </summary>
+        </member>
+        <member name="M:Rebus.Config.SqlServerTimeoutsConfigurationExtensions.StoreInSqlServer(Rebus.Config.StandardConfigurer{Rebus.Timeouts.ITimeoutManager},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.Boolean)">
+            <summary>
+            Configures Rebus to use SQL Server to store timeouts.
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DataBus.SqlServerDataBusStorage">
+            <summary>
+            Implementation of <see cref="T:Rebus.DataBus.IDataBusStorage"/> that uses SQL Server to store data
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DataBus.SqlServerDataBusStorage.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,System.Boolean,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Creates the data storage
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DataBus.SqlServerDataBusStorage.Initialize">
+            <summary>
+            Initializes the SQL Server data storage.
+            Will create the data table, unless this has been explicitly turned off when configuring the data storage
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DataBus.SqlServerDataBusStorage.Save(System.String,System.IO.Stream,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Saves the data from the given source stream under the given ID
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DataBus.SqlServerDataBusStorage.Read(System.String)">
+            <summary>
+            Opens the data stored under the given ID for reading
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DataBus.SqlServerDataBusStorage.ReadMetadata(System.String)">
+            <summary>
+            Loads the metadata stored with the given ID
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DataBus.StreamWrapper">
+            <summary>
+            Wraps a stream and an action, calling the action when the stream is disposed
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DbConnectionFactoryProvider">
+            <summary>
+            Implementation of <see cref="T:Rebus.SqlServer.IDbConnectionProvider"/> that ensures that MARS (multiple active result sets) is enabled on the
+            given connection string (possibly by enabling it by itself)
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionFactoryProvider.#ctor(System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Uses provided SqlConnection factory as constructor for SqlConnection used. Will use <see cref="F:System.Data.IsolationLevel.ReadCommitted"/> by default on transactions,
+            unless another isolation level is set with the <see cref="P:Rebus.SqlServer.DbConnectionFactoryProvider.IsolationLevel"/> property
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionFactoryProvider.GetConnection">
+            <summary>
+            Gets a nice ready-to-use database connection with an open transaction
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.DbConnectionFactoryProvider.IsolationLevel">
+            <summary>
+            Gets/sets the isolation level used for transactions
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DbConnectionProvider">
+            <summary>
+            Implementation of <see cref="T:Rebus.SqlServer.IDbConnectionProvider"/> that ensures that MARS (multiple active result sets) is enabled on the
+            given connection string (possibly by enabling it by itself)
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionProvider.#ctor(System.String,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Wraps the connection string with the given name from app.config (if it is found), or interprets the given string as
+            a connection string to use. Will use <see cref="F:System.Data.IsolationLevel.ReadCommitted"/> by default on transactions,
+            unless another isolation level is set with the <see cref="P:Rebus.SqlServer.DbConnectionProvider.IsolationLevel"/> property
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionProvider.GetConnection">
+            <summary>
+            Gets a nice ready-to-use database connection with an open transaction
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.DbConnectionProvider.IsolationLevel">
+            <summary>
+            Gets/sets the isolation level used for transactions
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DbConnectionWrapper">
+            <summary>
+            Wrapper of <see cref="T:System.Data.SqlClient.SqlConnection"/> that allows for either handling <see cref="T:System.Data.SqlClient.SqlTransaction"/> automatically, or for handling it externally
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.#ctor(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction,System.Boolean)">
+            <summary>
+            Constructs the wrapper, wrapping the given connection and transaction. It must be indicated with <paramref name="managedExternally"/> whether this wrapper
+            should commit/rollback the transaction (depending on whether <see cref="M:Rebus.SqlServer.DbConnectionWrapper.Complete"/> is called before <see cref="M:Rebus.SqlServer.DbConnectionWrapper.Dispose"/>), or if the transaction
+            is handled outside of the wrapper
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.CreateCommand">
+            <summary>
+            Creates a ready to used <see cref="T:System.Data.SqlClient.SqlCommand"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.GetTableNames">
+            <summary>
+            Gets the names of all the tables in the current database for the current schema
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.GetColumns(System.String,System.String)">
+            <summary>
+            Gets information about the columns in the table given by <paramref name="dataTableName"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.Complete">
+            <summary>
+            Marks that all work has been successfully done and the <see cref="T:System.Data.SqlClient.SqlConnection"/> may have its transaction committed or whatever is natural to do at this time
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbConnectionWrapper.Dispose">
+            <summary>
+            Finishes the transaction and disposes the connection in order to return it to the connection pool. If the transaction
+            has not been committed (by calling <see cref="M:Rebus.SqlServer.DbConnectionWrapper.Complete"/>), the transaction will be rolled back.
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.IDbConnection">
+            <summary>
+            Wrapper of <see cref="T:System.Data.SqlClient.SqlConnection"/> that allows for easily changing how transactions are handled, and possibly how <see cref="T:System.Data.SqlClient.SqlConnection"/> instances
+            are reused by various services
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.IDbConnection.CreateCommand">
+            <summary>
+            Creates a ready to used <see cref="T:System.Data.SqlClient.SqlCommand"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.IDbConnection.GetTableNames">
+            <summary>
+            Gets the names of all the tables in the current database for the current schema
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.IDbConnection.Complete">
+            <summary>
+            Marks that all work has been successfully done and the <see cref="T:System.Data.SqlClient.SqlConnection"/> may have its transaction committed or whatever is natural to do at this time
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.IDbConnection.GetColumns(System.String,System.String)">
+            <summary>
+            Gets information about the columns in the table given by [<paramref name="schema"/>].[<paramref name="dataTableName"/>]
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.DbColumn">
+            <summary>
+            Represents a SQL Server column
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.DbColumn.Name">
+            <summary>
+            Gets the name of the column
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.DbColumn.Type">
+            <summary>
+            Gets the SQL datatype of the column
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.DbColumn.#ctor(System.String,System.Data.SqlDbType)">
+            <summary>
+            Creates the column
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.IDbConnectionProvider">
+            <summary>
+            SQL Server database connection provider that allows for easily changing how the current <see cref="T:System.Data.SqlClient.SqlConnection"/> is obtained,
+            possibly also changing how transactions are handled
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.IDbConnectionProvider.GetConnection">
+            <summary>
+            Gets a wrapper with the current <see cref="T:System.Data.SqlClient.SqlConnection"/> inside
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.SqlServerMagic">
+            <summary>
+            Wraps some nice extension methods for <see cref="T:System.Data.SqlClient.SqlConnection"/> that makes it easy e.g. to query the schema
+            </summary>
+        </member>
+        <member name="F:Rebus.SqlServer.SqlServerMagic.PrimaryKeyViolationNumber">
+            <summary>
+            Error code that is emitted on PK violations
+            </summary>
+        </member>
+        <member name="F:Rebus.SqlServer.SqlServerMagic.ObjectDoesNotExistOrNoPermission">
+            <summary>
+            Error code that is emitted when something does not exist or the login's permissions do not allow the client to see it
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.SqlServerMagic.GetTableNames(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Gets the names of all tables in the current database
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.SqlServerMagic.GetIndexNames(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Gets the names of all indexes in the current database
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.SqlServerMagic.GetColumns(System.Data.SqlClient.SqlConnection,System.String,System.String,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Gets the names of all tables in the current database
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.SqlServerMagic.GetDatabaseNames(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Gets the names of all databases on the current server
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Sagas.SqlServerSagaSnapshotStorage">
+            <summary>
+            Implementation of <see cref="T:Rebus.Auditing.Sagas.ISagaSnapshotStorage"/> that uses a table in SQL Server to store saga snapshots
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaSnapshotStorage.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Constructs the snapshot storage
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaSnapshotStorage.EnsureTableIsCreated">
+            <summary>
+            Creates the subscriptions table if necessary
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaSnapshotStorage.Save(Rebus.Sagas.ISagaData,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Saves a snapshot of the saga data along with the given metadata
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Sagas.SqlServerSagaStorage">
+            <summary>
+            Implementation of <see cref="T:Rebus.Sagas.ISagaStorage"/> that persists saga data as a Newtonsoft JSON.NET-serialized object to a table in SQL Server.
+            Correlation properties are stored in a separate index table, allowing for looking up saga data instanes based on the configured correlation
+            properties
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,System.String,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Constructs the saga storage, using the specified connection provider and tables for persistence.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.Initialize">
+            <summary>
+            Initializes the storage by performing a check on the schema to see whether we should use
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.EnsureTablesAreCreated">
+            <summary>
+            Checks to see if the configured tables exist, creating them if necessary
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.Find(System.Type,System.String,System.Object)">
+            <summary>
+            Queries the saga index for an instance with the given <paramref name="sagaDataType"/> with a
+            a property named <paramref name="propertyName"/> and the value <paramref name="propertyValue"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.Insert(Rebus.Sagas.ISagaData,System.Collections.Generic.IEnumerable{Rebus.Sagas.ISagaCorrelationProperty})">
+            <summary>
+            Serializes the given <see cref="T:Rebus.Sagas.ISagaData"/> and generates entries in the index for the specified <paramref name="correlationProperties"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.Update(Rebus.Sagas.ISagaData,System.Collections.Generic.IEnumerable{Rebus.Sagas.ISagaCorrelationProperty})">
+            <summary>
+            Updates the given <see cref="T:Rebus.Sagas.ISagaData"/> and generates entries in the index for the specified <paramref name="correlationProperties"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Sagas.SqlServerSagaStorage.Delete(Rebus.Sagas.ISagaData)">
+            <summary>
+            Deletes the given <see cref="T:Rebus.Sagas.ISagaData"/> and removes all its entries in the index
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage">
+            <summary>
+            Implementation of <see cref="T:Rebus.Subscriptions.ISubscriptionStorage"/> that persists subscriptions in a table in SQL Server
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,System.Boolean,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Constructs the storage using the specified connection provider and table to store its subscriptions. If the subscription
+            storage is shared by all subscribers and publishers, the <paramref name="isCentralized"/> parameter can be set to true
+            in order to subscribe/unsubscribe directly instead of sending subscription/unsubscription requests
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.Initialize">
+            <summary>
+            Initializes the subscription storage by reading the lengths of the [topic] and [address] columns from SQL Server
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.EnsureTableIsCreated">
+            <summary>
+            Creates the subscriptions table if necessary
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.GetSubscriberAddresses(System.String)">
+            <summary>
+            Gets all destination addresses for the given topic
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.RegisterSubscriber(System.String,System.String)">
+            <summary>
+            Registers the given <paramref name="subscriberAddress"/> as a subscriber of the given <paramref name="topic"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.UnregisterSubscriber(System.String,System.String)">
+            <summary>
+            Unregisters the given <paramref name="subscriberAddress"/> as a subscriber of the given <paramref name="topic"/>
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.Subscriptions.SqlServerSubscriptionStorage.IsCentralized">
+            <summary>
+            Gets whether this subscription storage is centralized
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.TableName">
+            <summary>
+            Represents a (possibly schema-qualified) table name in SQL Server
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.TableName.Schema">
+            <summary>
+            Gets the schema name of the table
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.TableName.Name">
+            <summary>
+            Gets the table's name
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.#ctor(System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:Rebus.SqlServer.TableName"/> object with the given schema and table names
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.Parse(System.String)">
+            <summary>
+            Parses the given name into a <see cref="T:Rebus.SqlServer.TableName"/>, defaulting to using the 'dbo' schema unless the name is schema-qualified.
+            E.g. 'table' will result in a <see cref="T:Rebus.SqlServer.TableName"/> representing the '[dbo].[table]' table, whereas 'accounting.messages' will
+            represent the '[accounting].[messages]' table.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.Equals(Rebus.SqlServer.TableName)">
+            <inheritdoc />
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.op_Equality(Rebus.SqlServer.TableName,Rebus.SqlServer.TableName)">
+            <summary>
+            Checks whether the two <see cref="T:Rebus.SqlServer.TableName"/> objects are equal (i.e. represent the same table)
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.TableName.op_Inequality(Rebus.SqlServer.TableName,Rebus.SqlServer.TableName)">
+            <summary>
+            Checks whether the two <see cref="T:Rebus.SqlServer.TableName"/> objects are not equal (i.e. do not represent the same table)
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager">
+            <summary>
+            Implementation of <see cref="T:Rebus.Timeouts.ITimeoutManager"/> that uses SQL Server to store messages until it's time to deliver them.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,Rebus.Logging.IRebusLoggerFactory)">
+            <summary>
+            Constructs the timeout manager, using the specified connection provider and table to store the messages until they're due.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager.EnsureTableIsCreated">
+            <summary>
+            Creates the due messages table if necessary
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager.Defer(System.DateTimeOffset,System.Collections.Generic.Dictionary{System.String,System.String},System.Byte[])">
+            <summary>
+            Defers the message to the time specified by <paramref name="approximateDueTime"/> at which point in time the message will be
+            returned to whoever calls <see cref="M:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager.GetDueMessages"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Timeouts.SqlServerTimeoutManager.GetDueMessages">
+            <summary>
+            Gets messages due for delivery at the current time
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Transport.SqlServerTransport">
+            <summary>
+            Implementation of <see cref="T:Rebus.Transport.ITransport"/> that uses SQL Server to do its thing
+            </summary>
+        </member>
+        <member name="F:Rebus.SqlServer.Transport.SqlServerTransport.MagicExternalTimeoutManagerAddress">
+            <summary>
+            When a message is sent to this address, it will be deferred into the future!
+            </summary>
+        </member>
+        <member name="F:Rebus.SqlServer.Transport.SqlServerTransport.MessagePriorityHeaderKey">
+            <summary>
+            Special message priority header that can be used with the <see cref="T:Rebus.SqlServer.Transport.SqlServerTransport"/>. The value must be an <see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="F:Rebus.SqlServer.Transport.SqlServerTransport.DefaultExpiredMessagesCleanupInterval">
+            <summary>
+            Default interval that will be used for <see cref="P:Rebus.SqlServer.Transport.SqlServerTransport.ExpiredMessagesCleanupInterval"/> unless it is explicitly set to something else
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.#ctor(Rebus.SqlServer.IDbConnectionProvider,System.String,System.String,Rebus.Logging.IRebusLoggerFactory,Rebus.Threading.IAsyncTaskFactory)">
+            <summary>
+            Constructs the transport with the given <see cref="T:Rebus.SqlServer.IDbConnectionProvider"/>, using the specified <paramref name="tableName"/> to send/receive messages,
+            querying for messages with recipient = <paramref name="inputQueueName"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.Initialize">
+            <summary>
+            Initializes the transport by starting a task that deletes expired messages from the SQL table
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.Transport.SqlServerTransport.ExpiredMessagesCleanupInterval">
+            <summary>
+            Configures the interval between periodic deletion of expired messages. Defaults to <see cref="F:Rebus.SqlServer.Transport.SqlServerTransport.DefaultExpiredMessagesCleanupInterval"/>
+            </summary>
+        </member>
+        <member name="P:Rebus.SqlServer.Transport.SqlServerTransport.Address">
+            <summary>
+            Gets the name that this SQL transport will use to query by when checking the messages table
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.CreateQueue(System.String)">
+            <summary>
+            The SQL transport doesn't really have queues, so this function does nothing
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.EnsureTableIsCreated">
+            <summary>
+            Checks if the table with the configured name exists - if not, it will be created
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.Send(System.String,Rebus.Messages.TransportMessage,Rebus.Transport.ITransactionContext)">
+            <summary>
+            Sends the given transport message to the specified logical destination address by adding it to the messages table.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.Receive(Rebus.Transport.ITransactionContext,System.Threading.CancellationToken)">
+            <summary>
+            Receives the next message by querying the messages table for a message with a recipient matching this transport's <see cref="P:Rebus.SqlServer.Transport.SqlServerTransport.Address"/>
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransport.Dispose">
+            <summary>
+            Shuts down the background timer
+            </summary>
+        </member>
+        <member name="T:Rebus.SqlServer.Transport.SqlServerTransportConfigurationExtensions">
+            <summary>
+            Configuration extensions for the SQL transport
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransportConfigurationExtensions.UseSqlServerAsOneWayClient(Rebus.Config.StandardConfigurer{Rebus.Transport.ITransport},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String)">
+            <summary>
+            Configures Rebus to use SQL Server to transport messages as a one-way client (i.e. will not be able to receive any messages).
+            The table specified by <paramref name="tableName"/> will be used to store messages.
+            The message table will automatically be created if it does not exist.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransportConfigurationExtensions.UseSqlServerAsOneWayClient(Rebus.Config.StandardConfigurer{Rebus.Transport.ITransport},System.String,System.String)">
+            <summary>
+            Configures Rebus to use SQL Server to transport messages as a one-way client (i.e. will not be able to receive any messages).
+            The table specified by <paramref name="tableName"/> will be used to store messages.
+            The message table will automatically be created if it does not exist.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransportConfigurationExtensions.UseSqlServer(Rebus.Config.StandardConfigurer{Rebus.Transport.ITransport},System.Func{System.Threading.Tasks.Task{Rebus.SqlServer.IDbConnection}},System.String,System.String)">
+            <summary>
+            Configures Rebus to use SQL Server as its transport. The table specified by <paramref name="tableName"/> will be used to
+            store messages, and the "queue" specified by <paramref name="inputQueueName"/> will be used when querying for messages.
+            The message table will automatically be created if it does not exist.
+            </summary>
+        </member>
+        <member name="M:Rebus.SqlServer.Transport.SqlServerTransportConfigurationExtensions.UseSqlServer(Rebus.Config.StandardConfigurer{Rebus.Transport.ITransport},System.String,System.String,System.String)">
+            <summary>
+            Configures Rebus to use SQL Server as its transport. The table specified by <paramref name="tableName"/> will be used to
+            store messages, and the "queue" specified by <paramref name="inputQueueName"/> will be used when querying for messages.
+            The message table will automatically be created if it does not exist.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,66 @@
+﻿@using Sitecore.Mvc;
+@using Sitecore.Mvc.Presentation;
+@using Sitecore.Mvc.Analytics.Extensions
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link rel="Stylesheet" href="/content/styles/EPCORE02.css" />
+    <link href="/content/styles/jquery-ui.css" rel="stylesheet" />
+
+    @Html.Sitecore().VisitorIdentification()
+    @Html.Sitecore().Placeholder("CSSPlaceHolder")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script src="/HHRefreshContent/Scripts/Epsilon.HHonors.Scripts/SocialMedia.js" type="text/javascript"></script>
+    <script src="/HHRefreshContent/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/HHRefreshContent/Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/scripts/jquery-ui.min.js")" type="text/javascript"></script>
+</head>
+<body>
+    <div id="header">
+        <div id="header-inner">
+            @Html.Sitecore().Placeholder("LogoPlaceHolder")
+
+            @Html.Sitecore().Placeholder("LanguagePlaceHolder")
+        </div>
+    </div>
+
+    @Html.Sitecore().Placeholder("HeaderPlaceHolder")
+
+    @*
+
+        @Html.Sitecore().Placeholder("content")
+    *@
+    <div id="landing-top">
+        @Html.Sitecore().Placeholder("HeroPlaceHolder")
+    </div>
+
+
+    @Html.Sitecore().Placeholder("LandingBarPlaceHolder")
+
+    <div id="landing-content1">
+        <div id="signin-block" class="signin-wrapper clearfix">
+            <div class="column">
+                @Html.Sitecore().Placeholder("SignUpPlaceHolder")
+            </div>
+            <hr id="divider" />
+            <div class="column">
+                @Html.Sitecore().Placeholder("RegisterPlaceHolder")
+            </div>
+        </div>
+    </div>
+    @Html.Sitecore().Placeholder("LogoBarPlaceHolder")
+
+    @Html.Sitecore().Placeholder("TermsPlaceHolder")
+
+    <div id="footer-links-wrapper" class="clearfix">
+        @Html.Sitecore().Placeholder("GlobalSitesPlaceHolder")
+    </div>
+
+    @Html.Sitecore().Placeholder("FooterPlaceHolder")
+</body>
+</html>
